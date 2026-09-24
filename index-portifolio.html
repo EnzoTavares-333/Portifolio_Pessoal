@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!-- Define a codificação para aceitar acentos e caracteres especiais. -->
+  <meta charset="UTF-8">
+
+  <!-- Faz a página se adaptar ao tamanho da tela do celular, tablet e computador. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Título que aparece na aba do navegador. -->
+  <title>Enzo Tavares — Portfólio</title>
+
+  <!-- Pequena descrição da página para mecanismos de busca. -->
+  <meta name="description" content="Portfólio pessoal de Enzo Tavares, estudante de Análise e Desenvolvimento de Sistemas.">
+
+  <!-- Ícone que aparece na aba do navegador (mantido do arquivo original). -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23F2ECDC'/%3E%3Cpath d='M8,72 C28,50 38,66 54,40 C64,25 74,36 92,14' stroke='%233E5641' stroke-width='9' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+
+  <!-- Carrega o CSS do Bootstrap. É ele quem resolve quase todo o visual do site. -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Carrega as fontes usadas no site (o Bootstrap não tem como importar fontes externas). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!--
+    CSS PRÓPRIO — reduzido ao mínimo possível.
+    Só ficaram aqui as 3 coisas que o Bootstrap sozinho não resolve:
+      1) A fonte do Google Fonts (Bootstrap não importa fontes externas).
+      2) O "scroll-padding-top", que evita que a barra de navegação fixa
+         tampe o topo da seção quando você clica em um link do menu.
+    Todo o resto do site (inclusive o índice lateral, que antes tinha
+    várias regras aqui) foi resolvido só com classes do Bootstrap.
+  -->
+  <style>
+    body {
+      font-family: 'IBM Plex Sans', sans-serif;
+    }
+    .fonte-mono {
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    html {
+      scroll-padding-top: 90px;
+    }
+  </style>
+</head>
+
+<!--
+  O Scrollspy é ativado aqui.
+  data-bs-spy="scroll" = pede ao Bootstrap para observar a rolagem.
+  data-bs-target="#navegacao" = aponta para a div logo abaixo, que
+    contém os DOIS menus (o de cima e o índice lateral). Assim o
+    Bootstrap marca sozinho o link ativo nos dois ao mesmo tempo,
+    sem precisar de JavaScript extra pra isso.
+  data-bs-smooth-scroll="true" = ativa a rolagem suave do próprio
+    Bootstrap ao clicar em um link (por isso não precisamos mais de
+    "scroll-behavior: smooth" no CSS).
+-->
+<body class="bg-white"
+      data-bs-spy="scroll"
+      data-bs-target="#navegacao"
+      data-bs-smooth-scroll="true"
+      tabindex="0">
+
+  <!-- =========================================================
+       NAVEGAÇÃO
+       Agrupa a Navbar de cima e o índice lateral num único elemento,
+       só para o Scrollspy conseguir atualizar os dois juntos.
+       ========================================================= -->
+  <div id="navegacao">
+
+    <!-- Navbar principal, fixa no topo. -->
+    <nav id="menuNavegacao" class="navbar navbar-expand-md bg-white fixed-top border-bottom py-3">
+      <div class="container-xl">
+
+        <!-- Nome do portfólio. A imagem/ícone que ficava ao lado do nome foi retirada. -->
+        <a href="#inicio" class="navbar-brand fw-semibold text-dark fonte-mono">
+          Enzo Tavares
+        </a>
+
+        <!-- Botão do menu em telas pequenas. -->
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#menuPrincipal"
+                aria-controls="menuPrincipal"
+                aria-expanded="false"
+                aria-label="Abrir navegação">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Conteúdo da Navbar que recolhe em telas menores. -->
+        <div class="collapse navbar-collapse" id="menuPrincipal">
+          <ul class="navbar-nav ms-auto align-items-md-center fonte-mono small text-uppercase">
+            <li class="nav-item"><a class="nav-link text-dark" href="#inicio">Início</a></li>
+            <li class="nav-item"><a class="nav-link text-dark" href="#sobre">Sobre</a></li>
+            <li class="nav-item"><a class="nav-link text-dark" href="#tecnologias">Tecnologias</a></li>
+            <li class="nav-item"><a class="nav-link text-dark" href="#projetos">Projetos</a></li>
+            <li class="nav-item"><a class="nav-link text-dark" href="#estudos">Onde estudei</a></li>
+            <!-- Link para a seção de certificados. -->
+            <li class="nav-item"><a class="nav-link text-dark" href="#certificados">Certificados</a></li>
+            <li class="nav-item"><a class="nav-link text-dark" href="#contato">Contato</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- =========================================================
+         ÍNDICE LATERAL
+         É uma navegação vertical simples feita com componentes do Bootstrap.
+         position-fixed mantém o índice parado na lateral enquanto a página rola.
+         O Scrollspy usa os mesmos links para destacar a seção atual.
+         ========================================================= -->
+    <nav class="d-none d-xxl-flex flex-column position-fixed top-50 end-0 translate-middle-y me-3 nav nav-pills z-3"
+         aria-label="Navegação pelas seções"
+         style="--bs-nav-link-color: #212529; --bs-nav-link-hover-color: #212529; --bs-nav-pills-link-active-bg: #d1e7dd; --bs-nav-pills-link-active-color: #146c43;">
+
+      <!-- Cada link aponta para o ID de uma seção da página. -->
+      <a href="#inicio" class="nav-link px-3 py-2 small" aria-label="Ir para Início">Início</a>
+      <a href="#sobre" class="nav-link px-3 py-2 small" aria-label="Ir para Sobre">Sobre</a>
+      <a href="#tecnologias" class="nav-link px-3 py-2 small" aria-label="Ir para Tecnologias">Tecnologias</a>
+      <a href="#projetos" class="nav-link px-3 py-2 small" aria-label="Ir para Projetos">Projetos</a>
+      <a href="#estudos" class="nav-link px-3 py-2 small" aria-label="Ir para Onde estudei">Onde estudei</a>
+      <!-- Link do índice lateral para a seção de certificados. -->
+      <a href="#certificados" class="nav-link px-3 py-2 small" aria-label="Ir para Certificados">Certificados</a>
+      <a href="#contato" class="nav-link px-3 py-2 small" aria-label="Ir para Contato">Contato</a>
+    </nav>
+  </div>
+
+  <!-- =========================================================
+       CONTEÚDO PRINCIPAL
+       pe-xxl-5 reserva um pequeno espaço à direita em telas grandes,
+       evitando que o índice lateral fique sobre o conteúdo.
+       ========================================================= -->
+
+  <!-- =========================================================
+       APRESENTAÇÃO PRINCIPAL
+       ========================================================= -->
+  <header id="inicio" class="py-5 mt-5 pe-xxl-5">
+    <div class="container-xl py-5">
+      <div class="row align-items-center gy-5">
+
+        <div class="col-12 col-lg-7">
+          <div class="fonte-mono">
+            <p class="text-success small mb-2">Olá, eu sou</p>
+            <h1 class="display-4 fw-semibold text-dark mb-2">Enzo Tavares da Silva</h1>
+            <p class="fs-4 mb-4 text-success">Estudante de ADS e desenvolvedor em formação</p>
+          </div>
+
+          <p class="fs-5 text-secondary-emphasis col-12 col-md-10 mb-4">
+            Gosto de transformar ideias em páginas, aplicações e pequenos sistemas.
+            Atualmente estudo desenvolvimento de software e pratico Java, JavaScript, HTML,
+            CSS, Bootstrap, Python, SQL e Flutter.
+          </p>
+
+          <div class="d-flex flex-wrap gap-2">
+            <a href="#projetos" class="btn btn-success rounded-0">Conhecer projetos</a>
+            <button class="btn btn-outline-secondary rounded-0"
+                    type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#painelSobre"
+                    aria-controls="painelSobre">
+              Sobre mim
+            </button>
+          </div>
+        </div>
+
+        <!--
+          Foto de apresentação como uma tag <img> de verdade (em vez de
+          formas soltas de SVG), para você poder trocar depois pela sua
+          foto — é só substituir o valor de "src" por algo como
+          src="minha-foto.jpg".
+        -->
+        <div class="col-12 col-lg-5">
+          <div class="border rounded-0 p-3 bg-light">
+            <img
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 460'%3E%3Crect width='600' height='460' fill='%23e9ecef'/%3E%3Ccircle cx='300' cy='190' r='70' fill='%23ced4da'/%3E%3Cpath d='M170,400 C170,300 430,300 430,400 Z' fill='%23ced4da'/%3E%3C/svg%3E"
+              alt="Foto de Enzo Tavares (placeholder — troque pela sua foto)"
+              class="img-fluid rounded-0 w-100"
+              style="aspect-ratio: 600 / 460; object-fit: cover;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="pe-xxl-5">
+
+    <!-- =========================================================
+         SOBRE MIM
+         ========================================================= -->
+    <section id="sobre" class="py-5 bg-white">
+      <div class="container-xl py-5">
+        <div class="row gy-5">
+          <div class="col-12 col-lg-4">
+            <p class="text-success text-uppercase small mb-3 fonte-mono">Sobre mim</p>
+            <h2 class="fw-semibold text-dark mb-4 fonte-mono">
+              Aprender, testar e transformar ideias em projetos.
+            </h2>
+            <div class="border-top pt-3 small text-secondary-emphasis fonte-mono">
+              <p class="mb-2">Formação — Análise e Desenvolvimento de Sistemas</p>
+              <p class="mb-2">Área — Desenvolvimento de software</p>
+              <p class="mb-0">Foco atual — Programação e desenvolvimento web</p>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-7 offset-lg-1">
+            <p class="fs-5 text-secondary-emphasis mb-4">
+              Sou estudante de Análise e Desenvolvimento de Sistemas e estou construindo minha experiência
+              por meio de atividades acadêmicas e projetos próprios. Ao longo do curso, venho trabalhando
+              com desenvolvimento web, programação, banco de dados, aplicativos e automação.
+            </p>
+            <p class="fs-5 text-secondary-emphasis mb-4">
+              Meu objetivo é continuar evoluindo na programação, entendendo não apenas a sintaxe,
+              mas principalmente a lógica por trás de cada solução. Por isso, gosto de criar projetos
+              pequenos, testar tecnologias diferentes e melhorar o código aos poucos.
+            </p>
+            <div class="alert alert-light border" role="alert">
+              <strong>Como estudo:</strong> procuro manter os projetos simples de entender,
+              mas completos o suficiente para colocar em prática o conteúdo aprendido.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TECNOLOGIAS
+         ========================================================= -->
+    <section id="tecnologias" class="py-5 bg-light">
+      <div class="container-xl py-5">
+        <div class="col-12 col-md-8 mb-5">
+          <p class="text-success text-uppercase small mb-3 fonte-mono">Tecnologias</p>
+          <h2 class="fw-semibold text-dark fonte-mono">Ferramentas que venho estudando.</h2>
+          <p class="text-secondary-emphasis mt-3">
+            Tecnologias que já apareceram nos meus estudos, atividades e projetos.
+          </p>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-12 col-sm-6 col-lg-4">
+            <div class="card rounded-0 h-100">
+              <div class="card-header bg-white fonte-mono">Programação</div>
+              <div class="card-body d-flex flex-wrap gap-2">
+                <span class="badge text-bg-light border" data-bs-toggle="tooltip"
+                      data-bs-title="Linguagem estudada em atividades de lógica e programação">Java</span>
+                <span class="badge text-bg-light border" data-bs-toggle="tooltip"
+                      data-bs-title="Usado em exercícios de programação e interação com páginas">JavaScript</span>
+                <span class="badge text-bg-light border">Python</span>
+                <span class="badge text-bg-light border">C#</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-lg-4">
+            <div class="card rounded-0 h-100">
+              <div class="card-header bg-white fonte-mono">Desenvolvimento web</div>
+              <div class="card-body d-flex flex-wrap gap-2">
+                <span class="badge text-bg-light border">HTML</span>
+                <span class="badge text-bg-light border">CSS</span>
+                <span class="badge text-bg-light border">Bootstrap</span>
+                <span class="badge text-bg-light border">Flask</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-lg-4">
+            <div class="card rounded-0 h-100">
+              <div class="card-header bg-white fonte-mono">Dados e banco</div>
+              <div class="card-body d-flex flex-wrap gap-2">
+                <span class="badge text-bg-light border">SQL</span>
+                <span class="badge text-bg-light border">SQL Server</span>
+                <span class="badge text-bg-light border">Pandas</span>
+                <span class="badge text-bg-light border">OpenPyXL</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-lg-4">
+            <div class="card rounded-0 h-100">
+              <div class="card-header bg-white fonte-mono">Aplicativos</div>
+              <div class="card-body d-flex flex-wrap gap-2">
+                <span class="badge text-bg-light border">Flutter</span>
+                <span class="badge text-bg-light border">Dart</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-lg-4">
+            <div class="card rounded-0 h-100">
+              <div class="card-header bg-white fonte-mono">Automação</div>
+              <div class="card-body d-flex flex-wrap gap-2">
+                <span class="badge text-bg-light border">TIA Portal</span>
+                <span class="badge text-bg-light border">LAD</span>
+                <span class="badge text-bg-light border">FBD</span>
+                <span class="badge text-bg-light border">SCL</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         PROJETOS
+         ========================================================= -->
+    <section id="projetos" class="py-5 bg-white">
+      <div class="container-xl py-5">
+        <div class="col-12 col-md-8 mb-5">
+          <p class="text-success text-uppercase small mb-3 fonte-mono">Projetos</p>
+          <h2 class="fw-semibold text-dark fonte-mono">O que venho construindo.</h2>
+          <p class="text-secondary-emphasis mt-3">
+            Alguns projetos acadêmicos e pessoais que representam o que venho praticando.
+          </p>
+        </div>
+
+        <!--
+          "shadow-sm" no lugar da animação de hover que existia antes
+          (subir + sombra ao passar o mouse): visualmente mais simples
+          e não precisa de nenhuma regra de CSS própria.
+        -->
+        <div class="row g-4">
+          <div class="col-12 col-lg-4">
+            <div class="card shadow-sm rounded-0 h-100">
+              <div class="card-header bg-white fonte-mono">Projeto acadêmico</div>
+              <div class="card-body">
+                <span class="badge text-bg-success mb-3">Desenvolvimento web</span>
+                <h3 class="h4 fonte-mono">Sistema de Ordens de Serviço</h3>
+                <p class="text-secondary-emphasis">
+                  Protótipo para organizar solicitações e ordens de serviço, com telas para usuários,
+                  acompanhamento, histórico e relatórios.
+                </p>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                  <span class="badge text-bg-light border">HTML</span>
+                  <span class="badge text-bg-light border">CSS</span>
+                  <span class="badge text-bg-light border">Bootstrap</span>
+                </div>
+                <button class="btn btn-outline-success rounded-0" type="button"
+                        data-bs-toggle="modal" data-bs-target="#modalProjeto1">
+                  Ver detalhes
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-4">
+            <div class="card shadow-sm rounded-0 h-100">
+              <div class="card-header bg-white fonte-mono">Projeto pessoal</div>
+              <div class="card-body">
+                <span class="badge text-bg-success mb-3">Aplicativo</span>
+                <h3 class="h4 fonte-mono">Frases do Dia</h3>
+                <p class="text-secondary-emphasis">
+                  Aplicativo em Flutter com imagem, frase e botão para apresentar uma nova frase
+                  sem deslocar a estrutura principal.
+                </p>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                  <span class="badge text-bg-light border">Flutter</span>
+                  <span class="badge text-bg-light border">Dart</span>
+                </div>
+                <button class="btn btn-outline-success rounded-0" type="button"
+                        data-bs-toggle="modal" data-bs-target="#modalProjeto2">
+                  Ver detalhes
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-4">
+            <div class="card shadow-sm rounded-0 h-100">
+              <div class="card-header bg-white fonte-mono">Projeto em desenvolvimento</div>
+              <div class="card-body">
+                <span class="badge text-bg-success mb-3">Conteúdo</span>
+                <h3 class="h4 fonte-mono">Catálogo de Animes</h3>
+                <p class="text-secondary-emphasis">
+                  Ideia de site para organizar sinopse, curiosidades, gênero, classificação indicativa
+                  e quantidade de episódios.
+                </p>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                  <span class="badge text-bg-light border">HTML</span>
+                  <span class="badge text-bg-light border">CSS</span>
+                  <span class="badge text-bg-light border">JavaScript</span>
+                </div>
+                <button class="btn btn-outline-success rounded-0" type="button"
+                        data-bs-toggle="modal" data-bs-target="#modalProjeto3">
+                  Ver detalhes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Carrossel -->
+        <div class="mt-5">
+          <h3 class="h5 fonte-mono mb-3">Minha trajetória de estudos</h3>
+
+          <div id="carrosselEstudos" class="carousel slide border border-secondary-subtle" data-bs-ride="carousel" data-bs-interval="4000" style="--bs-carousel-indicator-active-bg:#198754;">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#carrosselEstudos" data-bs-slide-to="0"
+                      class="active" aria-current="true" aria-label="Primeiro item"></button>
+              <button type="button" data-bs-target="#carrosselEstudos" data-bs-slide-to="1" aria-label="Segundo item"></button>
+              <button type="button" data-bs-target="#carrosselEstudos" data-bs-slide-to="2" aria-label="Terceiro item"></button>
+            </div>
+
+            <!--
+              CONTRASTE DO CARROSSEL
+              O fundo ficou branco e o texto usa text-dark do Bootstrap.
+              As setas e os indicadores também foram escurecidos para
+              continuarem visíveis sobre o fundo claro.
+            -->
+            <div class="carousel-inner bg-white">
+              <div class="carousel-item active">
+                <div class="p-5 text-center">
+                  <span class="badge text-bg-success mb-3">01</span>
+                  <h4 class="fonte-mono">Lógica e programação</h4>
+                  <p class="text-dark mb-0">
+                    Exercícios com Java e JavaScript para praticar lógica, métodos, condições,
+                    repetições e dados.
+                  </p>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="p-5 text-center">
+                  <span class="badge text-bg-success mb-3">02</span>
+                  <h4 class="fonte-mono">Desenvolvimento de aplicações</h4>
+                  <p class="text-dark mb-0">
+                    Projetos com Flutter, páginas web com Bootstrap e experiências com Python e Flask.
+                  </p>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="p-5 text-center">
+                  <span class="badge text-bg-success mb-3">03</span>
+                  <h4 class="fonte-mono">Banco de dados e automação</h4>
+                  <p class="text-dark mb-0">
+                    Estudos de SQL, análise de dados e conteúdos de automação com TIA Portal.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- As setas padrão do Bootstrap são brancas; o filtro abaixo deixa o ícone escuro sobre o fundo claro. -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#carrosselEstudos" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" style="filter: invert(1) grayscale(100%);"></span>
+              <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carrosselEstudos" data-bs-slide="next">
+              <span class="carousel-control-next-icon" style="filter: invert(1) grayscale(100%);"></span>
+              <span class="visually-hidden">Próximo</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         ONDE ESTUDEI
+         ========================================================= -->
+    <section id="estudos" class="py-5 bg-light">
+      <div class="container-xl py-5">
+        <div class="col-12 col-md-8 mb-5">
+          <p class="text-success text-uppercase small mb-3 fonte-mono">Locais onde estudei</p>
+          <h2 class="fw-semibold text-dark fonte-mono">Minha trajetória de formação.</h2>
+          <p class="text-secondary-emphasis mt-3">
+            Nesta parte apresento os locais onde estudei e os períodos correspondentes.
+            Os projetos e tecnologias ficam nas seções próprias do portfólio.
+          </p>
+        </div>
+
+        <div class="row gy-5">
+          <div class="col-12 col-lg-7">
+            <div class="accordion" id="accordionEstudos">
+              <div class="accordion-item">
+                <h3 class="accordion-header">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                          data-bs-target="#estudoSesi" aria-expanded="true" aria-controls="estudoSesi">
+                    Sesi — 2022 a 2025
+                  </button>
+                </h3>
+                <div id="estudoSesi" class="accordion-collapse collapse show" data-bs-parent="#accordionEstudos">
+                  <div class="accordion-body">
+                    <strong>Período:</strong> 2022 a 2025.<br>
+                    <strong>Local:</strong> Sesi.<br>
+                    Período da minha formação anterior ao início da faculdade.
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item">
+                <h3 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                          data-bs-target="#estudoSenai" aria-expanded="false" aria-controls="estudoSenai">
+                    Senai — 2026 a 2027
+                  </button>
+                </h3>
+                <div id="estudoSenai" class="accordion-collapse collapse" data-bs-parent="#accordionEstudos">
+                  <div class="accordion-body">
+                    <strong>Período:</strong> 2026 a 2027.<br>
+                    <strong>Curso:</strong> Análise e Desenvolvimento de Sistemas.<br>
+                    Formação em andamento, com foco em programação, desenvolvimento de software,
+                    banco de dados, desenvolvimento web, automação e outras áreas da tecnologia.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-5">
+            <div class="card rounded-0 h-100">
+              <div class="card-body">
+                <h3 class="h5 fonte-mono">Formação atual</h3>
+                <ul class="list-group list-group-flush mt-3">
+                  <li class="list-group-item d-flex justify-content-between">
+                    Instituição <span class="badge text-bg-success rounded-pill">Senai</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between">
+                    Curso <span class="badge text-bg-success rounded-pill">ADS</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between">
+                    Início <span class="badge text-bg-success rounded-pill">2026</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between">
+                    Previsão <span class="badge text-bg-success rounded-pill">2027</span>
+                  </li>
+                </ul>
+
+                <button class="btn btn-outline-secondary rounded-0 mt-4" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#maisFormacao"
+                        aria-expanded="false" aria-controls="maisFormacao">
+                  Mostrar mais
+                </button>
+
+                <div class="collapse mt-3" id="maisFormacao">
+                  <div class="alert alert-light border mb-0">
+                    Estou em processo de aprendizado contínuo e uso os projetos acadêmicos
+                    para transformar o conteúdo das aulas em prática.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         CERTIFICADOS
+         ========================================================= -->
+    <section id="certificados" class="py-5 bg-white">
+      <div class="container-xl py-5">
+        <!-- Título e introdução da seção. -->
+        <div class="col-12 col-md-8 mb-5">
+          <p class="text-success text-uppercase small mb-3 fonte-mono">Certificados</p>
+          <h2 class="fw-semibold text-dark fonte-mono">Cursos complementares.</h2>
+          <p class="text-secondary-emphasis mt-3">
+            Certificados de cursos realizados no SENAI que complementam minha formação
+            em programação e desenvolvimento de aplicações.
+          </p>
+        </div>
+
+        <div class="row g-4">
+          <!-- Card do curso de Python. -->
+          <div class="col-12 col-lg-6">
+            <div class="card rounded-0 h-100 border">
+              <div class="card-body d-flex flex-column">
+                <span class="badge text-bg-success align-self-start rounded-pill mb-3">SENAI</span>
+                <h3 class="h5 fonte-mono">Fundamentos do Python 1</h3>
+                <p class="text-secondary-emphasis mb-2">30 horas · 04/04/2024 a 23/05/2024</p>
+                <p class="mb-4">
+                  Curso voltado aos fundamentos de Python, incluindo variáveis, estruturas
+                  condicionais, laços de repetição e funções.
+                </p>
+                <div class="mt-auto d-flex flex-wrap gap-2">
+                  <!-- Modal Bootstrap com detalhes do conteúdo do certificado. -->
+                  <button class="btn btn-outline-success rounded-0" type="button"
+                          data-bs-toggle="modal" data-bs-target="#modalCertificadoPython">
+                    Ver detalhes
+                  </button>
+                  <!-- O caminho aponta para o PDF dentro da pasta certificados. -->
+                  <a href="certificados/Certificado_Fundamentos do Python .pdf"
+                     class="btn btn-success rounded-0" target="_blank" rel="noopener">
+                    Ver certificado
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card do curso de Android. -->
+          <div class="col-12 col-lg-6">
+            <div class="card rounded-0 h-100 border">
+              <div class="card-body d-flex flex-column">
+                <span class="badge text-bg-success align-self-start rounded-pill mb-3">SENAI</span>
+                <h3 class="h5 fonte-mono">Desenvolvedor de Aplicações para Android</h3>
+                <p class="text-secondary-emphasis mb-2">40 horas · 10/07/2024 a 16/07/2024</p>
+                <p class="mb-4">
+                  Curso sobre desenvolvimento de aplicações Android com Java, interface,
+                  navegação, eventos, notificações e componentes da plataforma.
+                </p>
+                <div class="mt-auto d-flex flex-wrap gap-2">
+                  <!-- Modal Bootstrap com detalhes do conteúdo do certificado. -->
+                  <button class="btn btn-outline-success rounded-0" type="button"
+                          data-bs-toggle="modal" data-bs-target="#modalCertificadoAndroid">
+                    Ver detalhes
+                  </button>
+                  <!-- O caminho aponta para o PDF dentro da pasta certificados. -->
+                  <a href="certificados/Certificado_Desenvolvedor de Aplicações para Androi.pdf"
+                     class="btn btn-success rounded-0" target="_blank" rel="noopener">
+                    Ver certificado
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         CONTATO
+         ========================================================= -->
+    <section id="contato" class="py-5 bg-white">
+      <div class="container-xl py-5">
+        <div class="row gy-5">
+          <div class="col-12 col-lg-5">
+            <p class="text-success text-uppercase small mb-3 fonte-mono">Contato</p>
+            <h2 class="fw-semibold text-dark mb-3 fonte-mono">Vamos conversar.</h2>
+            <p class="text-secondary-emphasis col-12 col-md-10 mb-4">
+              Para contato profissional, acadêmico ou para conversar sobre algum projeto,
+              estes são os canais disponíveis.
+            </p>
+            <div class="d-flex flex-column gap-3 small fonte-mono">
+              <!-- Contatos reais usados no portfólio. -->
+              <a href="mailto:t.i.aulas.enzo@gmail.com" class="link-dark">E-mail</a>
+              <a href="https://github.com/EnzoTavares-333" class="link-dark" target="_blank" rel="noopener">GitHub</a>
+              <a href="https://www.linkedin.com/in/enzo-tavares-1798793b2" class="link-dark" target="_blank" rel="noopener">LinkedIn</a>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-6 offset-lg-1">
+            <form id="formContato">
+              <div class="mb-3">
+                <label for="nome" class="form-label small">Nome</label>
+                <input type="text" id="nome" required class="form-control rounded-0" placeholder="Seu nome">
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label small">E-mail</label>
+                <input type="email" id="email" required class="form-control rounded-0" placeholder="seuemail@exemplo.com">
+              </div>
+              <div class="mb-4">
+                <label for="mensagem" class="form-label small">Mensagem</label>
+                <textarea id="mensagem" required rows="4" class="form-control rounded-0" placeholder="Escreva sua mensagem"></textarea>
+              </div>
+              <button type="submit" class="btn btn-success rounded-0">Enviar mensagem</button>
+              <div id="statusFormulario" class="alert alert-success mt-3 d-none" role="alert">
+                Mensagem preparada com sucesso. Este formulário é apenas demonstrativo.
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================
+       RODAPÉ
+       ========================================================= -->
+  <footer class="bg-dark text-light pt-5 pb-4">
+    <div class="container-xl">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4 pb-4 border-bottom border-secondary">
+        <div>
+          <p class="fw-semibold mb-1 fonte-mono">Enzo Tavares</p>
+          <p class="text-light mb-0 small">Portfólio pessoal desenvolvido com HTML e Bootstrap.</p>
+        </div>
+        <ul class="d-flex flex-wrap gap-4 list-unstyled mb-0 small">
+          <li><a href="#inicio" class="link-light">Início</a></li>
+          <li><a href="#projetos" class="link-light">Projetos</a></li>
+          <li><a href="#certificados" class="link-light">Certificados</a></li>
+          <li><a href="#contato" class="link-light">Contato</a></li>
+        </ul>
+      </div>
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 pt-4 small text-light">
+        <p class="mb-0">© <span id="ano"></span> Enzo Tavares</p>
+        <p class="mb-0">Estudante e desenvolvedor em formação</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =========================================================
+       MODAIS DOS PROJETOS
+       ========================================================= -->
+  <div class="modal fade" id="modalProjeto1" tabindex="-1" aria-labelledby="tituloProjeto1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title fs-5 fonte-mono" id="tituloProjeto1">Sistema de Ordens de Serviço</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          Projeto acadêmico pensado para organizar solicitações e ordens de serviço.
+          A estrutura inclui telas para criação de solicitações, listagem, detalhes,
+          histórico, mapa, gerenciamento e relatórios.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalProjeto2" tabindex="-1" aria-labelledby="tituloProjeto2" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title fs-5 fonte-mono" id="tituloProjeto2">Frases do Dia</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          Aplicativo criado para praticar Flutter. A interface apresenta uma imagem,
+          uma frase e um botão que permite trocar a frase sem deslocar a estrutura principal da tela.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalProjeto3" tabindex="-1" aria-labelledby="tituloProjeto3" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title fs-5 fonte-mono" id="tituloProjeto3">Catálogo de Animes</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          Projeto pessoal em planejamento para organizar informações de animes,
+          como sinopse, curiosidades, gênero, classificação indicativa e quantidade de episódios.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAIS DOS CERTIFICADOS
+       ========================================================= -->
+  <div class="modal fade" id="modalCertificadoPython" tabindex="-1" aria-labelledby="tituloCertificadoPython" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title fs-5 fonte-mono" id="tituloCertificadoPython">Fundamentos do Python 1</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Instituição:</strong> SENAI</p>
+          <p><strong>Carga horária:</strong> 30 horas.</p>
+          <p class="mb-2"><strong>Conteúdos:</strong></p>
+          <ul>
+            <li>Fundamentos da linguagem Python.</li>
+            <li>Ambiente de desenvolvimento.</li>
+            <li>Tipos de variáveis e funções padrão.</li>
+            <li>Expressões lógicas, condicionais e laços.</li>
+            <li>Modularização de programas com funções.</li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalCertificadoAndroid" tabindex="-1" aria-labelledby="tituloCertificadoAndroid" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title fs-5 fonte-mono" id="tituloCertificadoAndroid">Desenvolvedor de Aplicações para Android</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Instituição:</strong> SENAI</p>
+          <p><strong>Carga horária:</strong> 40 horas.</p>
+          <p class="mb-2"><strong>Conteúdos:</strong></p>
+          <ul>
+            <li>Java para aplicações Android.</li>
+            <li>Interface, navegação, diálogos, eventos e notificações.</li>
+            <li>Banco de dados interno e preferências.</li>
+            <li>Activity, Intent, View e Adapter.</li>
+            <li>Service, Thread, Receiver, Alarm e Handler.</li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       OFFCANVAS — painel lateral "Sobre mim"
+       ========================================================= -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="painelSobre" aria-labelledby="tituloPainelSobre">
+    <div class="offcanvas-header">
+      <h2 class="offcanvas-title fs-5 fonte-mono" id="tituloPainelSobre">Sobre mim</h2>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+    </div>
+    <div class="offcanvas-body">
+      <p>
+        Sou estudante de ADS e estou construindo minha base em programação por meio
+        de exercícios, projetos acadêmicos e projetos pessoais.
+      </p>
+      <p>
+        Tenho praticado lógica de programação, banco de dados, desenvolvimento web,
+        aplicativos e automação.
+      </p>
+      <div class="alert alert-light border">
+        <strong>Objetivo:</strong> evoluir de projetos simples para aplicações cada vez
+        mais completas, mantendo o código compreensível.
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       TOAST — notificação ao enviar o formulário
+       ========================================================= -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="toastBoasVindas" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="me-auto">Portfólio</strong>
+        <small>agora</small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Fechar"></button>
+      </div>
+      <div class="toast-body">Bem-vindo ao meu portfólio!</div>
+    </div>
+  </div>
+
+  <!-- Carrega o JavaScript do Bootstrap (o "bundle" já inclui o Popper). -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Coloca automaticamente o ano atual no rodapé.
+    document.getElementById('ano').textContent = new Date().getFullYear();
+
+    // O Tooltip precisa ser inicializado manualmente pelo Bootstrap.
+    document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      .forEach((elemento) => new bootstrap.Tooltip(elemento));
+
+    // O Scrollspy já cuida de marcar automaticamente o link
+    // correspondente à seção que está aparecendo na tela.
+    // Não precisamos de outro código JavaScript para isso.
+
+    // Formulário de contato (demonstrativo — não envia para nenhum servidor).
+    const formulario = document.getElementById('formContato');
+    const statusFormulario = document.getElementById('statusFormulario');
+
+    formulario.addEventListener('submit', function (evento) {
+      evento.preventDefault();
+      statusFormulario.classList.remove('d-none');
+
+      const toast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toastBoasVindas'));
+      toast.show();
+
+      formulario.reset();
+    });
+  </script>
+</body>
+</html>
